@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <title>Smart Web Analyzer</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'fyp.css'%}">
+    <link rel="icon" type="image/ico" href="{% static 'favicon-1.ico'%}">
+            <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body style="background-color:rgb(255, 255, 255)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 mt-5">
+                <br>
+                <br>
+                <h3 class="text-center">Mobile Friendly Test</h3>
+                <p class="text-center mt-3">It analyze in a bulk mode many pages and check how Googlebot sees them. Imagine that you make changes to your website layout, theme, or the way the pages of your website are served to the Googlebot. By using the Mobile-Friendly test tool you can check lots of pages very fast and easily to make sure that the Googlebot sees your website as expected by examining the blocked resources and the screenshots.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form name="myForm" action="/mobiletest" method="post" required>
+                    {% csrf_token %}
+                    <div class="form-group mt-4">
+                        <input placeholder="Enter URL" name="fname"  autocomplete="on" type="search" id="urlfield" class="form-control rounded" style="min-width: 350px; min-height:25px"
+                               {% if url %}
+                               value={{url}}
+                               {% endif %}
+                        />
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary" onclick="myFunction()" style="background-image: linear-gradient(to bottom,#2670ac,#023761)  !important;" type="submit">Submit</button>
+                        <button onclick="trynewurl()" class="btn btn-secondary" style="background-image: linear-gradient(to bottom,#2670ac,#023761)  !important;" type="submit"><a style=" color:white; " href="{% url 'mobiletest' %}" >Try New URL!</a></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if result %}
+        <div class="row mt-5">
+            <div class="col-md-8 offset-md-2">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Test:</th>
+                            <td>  {% if test %}
+                                                                <p style="font-size: 60px; color: green;">&#10004;</p>
+                                                            {% elif test1 %}
+                                                                <p style="font-size: 60px; color: red;">&#10008;</p>
+                                                            {% endif %}
+                                    {{result}}</td>
+                        </tr>
+                    <tr>
+
+                        <th style="padding-left: 50px;" scope="col"></th>
+                        <td style="padding-right: 170px;"><textarea id="my-textbox" name="my-textbox" rows="8" cols="100" style="border:0;overflow: auto; resize: both;">{{content}}</textarea></td>
+
+                    </tr>
+
+                    </thead>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+    <script>
+<!--        var c = document.getElementById("content");-->
+<!--        const isValidUrl = urlString => {-->
+<!--            var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol-->
+<!--                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name-->
+<!--                '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address-->
+<!--                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path-->
+<!--                '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string-->
+<!--                '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator-->
+<!--            return !!urlPattern.test(urlString);-->
+<!--        }-->
+
+<!--        function myFunction() {-->
+
+<!--            var empt = document.getElementById("urlfield").value;-->
+<!--            if (empt != "" && isValidUrl(empt) == true) {-->
+
+<!--                if (c.style.display === "none") {-->
+<!--                    c.style.display = "block"-->
+<!--                } else {-->
+<!--                    c.style.display = "none"-->
+<!--                }-->
+
+<!--            } else {-->
+<!--                alert("Enter a valid URL first to get the results...");-->
+<!--            }-->
+<!--        }-->
+
+        function trynewurl() {
+            var url = document.getElementById("urlfield");
+            var c = document.getElementById("content");
+            c.style.display = "none";
+            url.value = ""
+
+
+
+        }
+    </script>
+    <!--Main Navigation-->
+    <header>
+
+
+        <!-- Sidebar -->
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-primary" style="background-image: linear-gradient(to bottom,#023761,#02569b,#80aacd)  !important;">
+  <div class="position-sticky">
+    <div class="list-group list-group-flush mx-3 mt-4">
+      <a href="{% url 'Home' %}" class="list-group-item list-group-item-action py-2 ripple ">
+        <span class="icon me-3"><i class="fas fa-tachometer-alt"></i></span>
+        <span class="text">Website Audit</span>
+      </a>
+      <a href="{% url 'backlink' %}" class="list-group-item list-group-item-action py-2 ripple ">
+        <span class="icon me-3"><i class="fas fa-chart-line"></i></span>
+        <span class="text">Backlinks Checker</span>
+      </a>
+      <a href="{% url 'DomainAuthority' %}" class="list-group-item list-group-item-action py-2 ripple">
+        <span class="icon me-3"><i class="fas fa-chart-pie"></i></span>
+        <span class="text">Domain Authority</span>
+      </a>
+      <a href="{% url 'pageAuthority' %}" class="list-group-item list-group-item-action py-2 ripple">
+        <span class="icon me-3"><i class="fas fa-chart-pie"></i></span>
+        <span class="text">Page Authority</span>
+      </a>
+        <a href="{% url 'keyPosition' %}" class="list-group-item list-group-item-action py-2 ripple ">
+        <span class="icon me-3"><i class="fas fa-chart-line"></i></span>
+        <span class="text">Keyword Position</span>
+      </a>
+      <a href="{% url 'mobiletest' %}" class="list-group-item list-group-item-action py-2 ripple active">
+        <span class="icon me-3"><i class="fas fa-chart-bar"></i></span>
+        <span class="text">Mobile Friendly Test</span>
+      </a>
+      <a href="{% url 'robot' %}" class="list-group-item list-group-item-action py-2 ripple">
+        <span class="icon me-3"><i class="fas fa-globe"></i></span>
+        <span class="text">Robot.txt Generator</span>
+      </a>
+      <a href="{% url 'keysuggestion' %}" class="list-group-item list-group-item-action py-2 ripple ">
+        <span class="icon me-3"><i class="fas fa-chart-line"></i></span>
+        <span class="text">Keyword Suggestion</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top" style="background-image: linear-gradient(to right,#023761,#02569b,#80aacd) !important;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'Home' %}">
+      <img src="{% static 'logo.png'%}" class="d-inline-block align-top" alt="Logo" style="width: 40px; height: auto; margin-left: -10px;margin-right: 5px;">
+      <h4 style="color: white; display: inline-block;">Smart Web Analyzer</h4>
+    </a>
+  </div>
+</nav>
+        <!-- Navbar -->
+
+    </header>
+
+ <script>
+            {% if msg %}
+            alert('{{msg}}')
+            {% endif %}
+        </script>
+
+
+
+    <!--Main Navigation-->
+    <!--Main layout-->
+    <main style="margin-top: 58px; ">
+        <div class="container pt-4 "></div>
+    </main>
+    <!--Main layout-->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js " integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM " crossorigin="anonymous "></script>
+</body>
+
+</html>
